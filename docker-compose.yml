@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  redis:
+    build: .
+    ports:
+      - 6379:6379
+
+  spring-boot:
+    build:
+      context: ./spring-boot
+      args:
+        - JAR_FILE=build/libs/*.jar
+    volumes:
+      - ./spring-boot:/src/spring-boot
+    ports:
+      - 8080:8080
+
+  web:
+    build: ./server
+    volumes:
+      - ./server:/src/server
+      - /src/node_modules
+    ports:
+      - 3000:3000
